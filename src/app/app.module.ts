@@ -9,6 +9,7 @@ import { RouterModule }   from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { TaskInputComponent } from './task-input/task-input.component';
+import { TaskListComponent } from './task-list/task-list.component';
 
 
 
@@ -19,7 +20,8 @@ import { TaskInputComponent } from './task-input/task-input.component';
     LoginComponent,
     HomeComponent,
     LoginComponent,
-    TaskInputComponent
+    TaskInputComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,7 @@ import { TaskInputComponent } from './task-input/task-input.component';
       { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'home',
-    component: AppComponent
+    component: HomeComponent
   },
   {
     path: 'login',
