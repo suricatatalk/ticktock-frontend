@@ -6,6 +6,9 @@ import { Observable } from "rxjs/Observable";
 export class Task {
   name: string;
   duration: number;
+  status:string;
+  start:number;
+  end:number;
 }
 
 

@@ -1,10 +1,15 @@
 <div class="row">
     <div class="col-lg-6">
+        <h1 [ngClass]="{'hidden': isRunning }">{{duration}}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
         <div class="input-group">
             <input type="text" class="form-control" value="{{task.name}}" placeholder=" Enter taks name... ">
             <span class="input-group-btn ">
         <button class="btn btn-default " type="button ">{{buttonTitle}}</button>
-      </span>
+        </span>
         </div>
     </div>
 </div>

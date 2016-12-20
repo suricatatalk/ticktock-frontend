@@ -21,8 +21,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
         this.backendService.getTasks().subscribe(res =>{
      let tempTasks = <Task[]>res
-     this.input.task = tempTasks[0]
-     this.list.tasks = tempTasks.slice(1,2)
+     this.input.setTask(tempTasks[0])
+
+     this.list.tasks = tempTasks.slice(1)
     })
   }
 
