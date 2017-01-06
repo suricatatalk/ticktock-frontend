@@ -1,30 +1,29 @@
-import { Component, OnInit ,ViewChild,QueryList,forwardRef} from '@angular/core';
-import {TaskInputComponent} from '../task-input/task-input.component';
-import {TaskListComponent} from '../task-list/task-list.component';
-import {BackendService,Task} from '../backend.service';
+import { Component, OnInit, ViewChild, QueryList, forwardRef } from '@angular/core';
+import { TaskInputComponent } from '../task-input/task-input.component';
+import { TaskListComponent } from '../task-list/task-list.component';
+import { AuthStorageService } from '../auth-storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [BackendService]
 })
 export class HomeComponent implements OnInit {
-@ViewChild(forwardRef(() => TaskInputComponent)) input: TaskInputComponent;;
-@ViewChild(forwardRef(() => TaskListComponent)) list: TaskListComponent;
 
-  constructor(private backendService: BackendService) {}
-  ngAfterContentInit() {
 
+  constructor(private _route: ActivatedRoute,
+    private _authStorage: AuthStorageService) {
   }
 
   ngOnInit() {
-        this.backendService.getTasks().subscribe(res =>{
-     let tempTasks = <Task[]>res
-     this.input.setTask(tempTasks[0])
-
-     this.list.tasks = tempTasks.slice(1)
-    })
+    this._route.queryParams.subscribe(
+      (param: any) => {
+        let xauth = param['token'];
+        if (xauth != null) {
+          this._authStorage.saveToken(xauth);
+        }
+      });
   }
 
 }

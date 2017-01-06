@@ -1,36 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import {Task} from '../backend.service'
+import { Task, BackendService } from '../backend.service';
 
 @Component({
   selector: 'app-task-input',
   templateUrl: './task-input.component.html',
-  styleUrls: ['./task-input.component.css']
+  styleUrls: ['./task-input.component.css'],
 })
-
 export class TaskInputComponent implements OnInit {
 
   buttonTitle: string;
   task: Task;
-  isRunning:boolean;
-  duration: number;
+  isRunning: boolean;
+  duration: string;
 
-  constructor() { 
-    this.buttonTitle = "Start";
-    this.task = new Task();
+  constructor(private _backendService: BackendService) {
+    this.buttonTitle = 'Start';
+    if (this.task == null) {
+      this.task = new Task();
+    }
   }
 
+  ngOnInit() { }
 
-  setTask(task:Task){
+  setTask(task: Task) {
     this.task = task;
-    this.isRunning = (task.status === "running")
+    this.isRunning = (task.status === 'running');
     setInterval(() => {
-        let date =  new Date();
-        this.duration = (date.getTime()- this.task.start)
-     }, 1000);
+      let date = new Date();
+      this.duration = this.milisToHHMMss(date.getTime() - this.task.start);
+    }, 10);
+    if (this.task.status === 'running') {
+      this.buttonTitle = 'Pause';
+    } else {
+      this.buttonTitle = 'Start';
+    }
+  }
+
+  private milisToHHMMss(duration: number): string {
+    let milis = (duration % (1000));
+    let seconds = (duration % (1000 * 60)) / 1000;
+    let minutes = (duration % (1000 * 60 * 60)) / (60 * 1000);
+    let hours = (duration % (1000 * 60 * 60 * 60)) / (60 * 1000 * 60);
+    return (hours.toFixed(0) + ':' + minutes.toFixed(0) + ':' + seconds.toFixed(0) + ':' + milis);
   }
 
 
-  ngOnInit() {
+  onStartPauseClick() {
+    if (this.task.status == null) {
+      this._backendService.startTask(this.task.name);
+      return;
+    }
+
+    if (this.task.status === 'paused') {
+      this._backendService.resumeTask(this.task);
+      return;
+    }
+
+    if (this.task.status === 'running') {
+      this._backendService.pauseTask(this.task);
+      return;
+    }
   }
+
+  onFinishClick() {
+    this._backendService.finishTask(this.task);
+    return;
+  }
+
+
+
 
 }
