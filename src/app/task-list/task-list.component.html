@@ -1,3 +1,5 @@
 <ul class="list-group col-lg-6">
-    <li class="list-group-item" *ngFor='let task of tasks'><span>{{task.name}}</span><span>{{task.duration}}</span></li>
+    <li class="list-group-item" *ngFor='let task of (_backendService.observableList | async | finishedTasks) '>
+        <span>{{task.name}}</span><span>Start:&nbsp;</span><span>Finish:&nbsp;</span><span class="badge">{{task.duration}}&nbsp; sec</span>
+    </li>
 </ul>

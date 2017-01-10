@@ -24,31 +24,27 @@ export class Event {
 @Injectable()
 export class BackendService {
 
-  id: number = new Date().getMilliseconds();
   base: string = 'https://3c6d5eaf.ngrok.io/';
 
   private _list: Task[] = [];
   private _observableList: BehaviorSubject<Task[]> = new BehaviorSubject([]);
 
-  constructor(private http: HttpSecuredService) { 
+  constructor(private http: HttpSecuredService) {
+    console.log("BackendService has been created.");
     this.refresh();
   }
 
-  get observableList(): Observable<Task[]> { return this._observableList.asObservable() }
+  get observableList(): Observable<Task[]> { return this._observableList.asObservable().share() }
 
 
   refresh() {
-    console.log("BackendService"+this.id+": refresh called");
-    this.http.get(this.base + 'tasks').map(res => res.json()).subscribe(res => {
+    console.log("BackendService: refresh called");
+    let obs = this.http.get(this.base + 'tasks').map(res => res.json()).subscribe(res => {
       this._list = <Task[]>res;
       this._observableList.next(this._list);
+      console.log("BackendService: pushed list: " + JSON.stringify(this._list));
+      obs.unsubscribe();
     });
-  }
-
-  getTasks() {
-    this._list.push(new Task());
-    // return this.http.get(this.base + 'tasks')
-    //   .map(res => res.json());
   }
 
   startTask(name: string) {
@@ -56,7 +52,10 @@ export class BackendService {
     task.taskName = name;
     task.eventEpoch = new Date().getTime();
     task.eventType = 'start';
-    this.http.post(this.base + 'events', task);
+    let obs = this.http.post(this.base + 'events', task).subscribe(res => {
+      this.refresh();
+      obs.unsubscribe();
+    });
   }
 
   pauseTask(inputTask: Task) {
@@ -76,7 +75,10 @@ export class BackendService {
     event.eventEpoch = new Date().getTime();
     event.eventType = action;
     event.taskId = inputTask.id;
-    this.http.put(this.base + 'events', event);
+    let obs = this.http.put(this.base + 'events', event).subscribe(res => {
+      this.refresh();
+      obs.unsubscribe();
+    });
   }
 
 }

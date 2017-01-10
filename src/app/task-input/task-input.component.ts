@@ -15,14 +15,31 @@ export class TaskInputComponent implements OnInit {
 
   constructor(private _backendService: BackendService) {
     this.buttonTitle = 'Start';
+    console.log("TaskInputComponent: created.");
+    this._backendService.observableList.subscribe(list => {
+      let chosenTask: Task;
+      list.forEach(item => {
+        console.log("TaskInputComponent: processing list.");
+        if (item.status !== 'finished') {
+          console.log("TaskInputComponent: Got " + item.id);
+          chosenTask = item;
+        }
+      });
+      if (chosenTask == null) {
+        chosenTask = new Task();
+      }
+      this.setTask(chosenTask);
+    });
+  }
+
+  ngOnInit() {
     if (this.task == null) {
       this.task = new Task();
     }
   }
 
-  ngOnInit() { }
-
   setTask(task: Task) {
+    console.log("Setting task: " + JSON.stringify(task));
     this.task = task;
     this.isRunning = (task.status === 'running');
     setInterval(() => {
