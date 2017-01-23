@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService, Task } from '../backend.service';
 
-
-
-
-
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',

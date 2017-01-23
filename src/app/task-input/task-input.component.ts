@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Task, BackendService } from '../backend.service';
+import { BackendService, Task, Event } from '../backend.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task-input',
@@ -11,7 +12,8 @@ export class TaskInputComponent implements OnInit {
   buttonTitle: string;
   task: Task;
   isRunning: boolean;
-  duration: string;
+  duration: number;
+  lastTimer: NodeJS.Timer;
 
   constructor(private _backendService: BackendService) {
     this.buttonTitle = 'Start';
@@ -39,28 +41,31 @@ export class TaskInputComponent implements OnInit {
   }
 
   setTask(task: Task) {
-    console.log("Setting task: " + JSON.stringify(task));
+    console.log('Setting task: ' + JSON.stringify(task));
     this.task = task;
-    this.isRunning = (task.status === 'running');
-    setInterval(() => {
-      let date = new Date();
-      this.duration = this.milisToHHMMss(date.getTime() - this.task.start);
-    }, 10);
+    this.isRunning = (task.status === 'running' || task.status === 'paused');
+
+    if (this.lastTimer != null) {
+      clearInterval(this.lastTimer);
+    }
+
     if (this.task.status === 'running') {
       this.buttonTitle = 'Pause';
+
+      let lastStart: number;
+      this.task.events.forEach(event => {
+        if (event.eventType == 0) {
+          lastStart = event.eventEpoch;
+        }
+      });
+      this.lastTimer = setInterval(() => {
+        let date = new Date();
+        this.duration = this.task.duration + (date.getTime() / 1000 - lastStart);
+      }, 1000);
     } else {
       this.buttonTitle = 'Start';
     }
   }
-
-  private milisToHHMMss(duration: number): string {
-    let milis = (duration % (1000));
-    let seconds = (duration % (1000 * 60)) / 1000;
-    let minutes = (duration % (1000 * 60 * 60)) / (60 * 1000);
-    let hours = (duration % (1000 * 60 * 60 * 60)) / (60 * 1000 * 60);
-    return (hours.toFixed(0) + ':' + minutes.toFixed(0) + ':' + seconds.toFixed(0) + ':' + milis);
-  }
-
 
   onStartPauseClick() {
     if (this.task.status == null) {

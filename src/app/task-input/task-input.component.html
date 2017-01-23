@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-lg-6">
-        <h1 [ngClass]="{'hidden': !isRunning }">{{duration}}</h1>
+    <div class="col-lg-12">
+        <h1 [ngClass]="{'hidden': !isRunning }">{{duration | formatTime}}</h1>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="input-group">
             <input type="text" class="form-control" [(ngModel)]="task.name" placeholder=" Enter taks name... ">
             <span class="input-group-btn ">
