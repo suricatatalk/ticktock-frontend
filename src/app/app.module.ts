@@ -14,6 +14,7 @@ import { TaskInputComponent } from './task-input/task-input.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { ConnectionBackend, RequestOptions, Response } from '@angular/http';
 import { BackendService } from './backend.service';
+import { SettingsComponent } from './settings/settings.component';
 
 
 
@@ -26,13 +27,14 @@ import { BackendService } from './backend.service';
     LoginComponent,
     TaskInputComponent,
     TaskListComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: '', redirectTo: '/login', pathMatch: 'full' },
       {
         path: 'home',
         component: HomeComponent

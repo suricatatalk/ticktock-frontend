@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthStorageService} from './../auth-storage.service'
 
 @Component({
   selector: 'app-topbar',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _storage:AuthStorageService) { }
 
   ngOnInit() {
   }

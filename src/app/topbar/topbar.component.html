@@ -12,15 +12,13 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" [ngClass]="{'hidden': _storage.user == null }">
             <li id="fat-menu" class="dropdown">
-                <a href="#" class="dropdown-toggle" id="drop3" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Dropdown <span class="fa fa-user-o"></span> </a>
+                <a href="#" class="dropdown-toggle" id="drop3" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="fa fa-user-o"></span>&nbsp;{{_storage.user}}</a>
                 <ul class="dropdown-menu" aria-labelledby="drop3">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li><a href="/settings"><i class="fa fa-cogs" aria-hidden="true">&nbsp;</i>Settings</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#" (click)="_storage.reset()"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Logout</a></li>
                 </ul>
             </li>
         </ul>

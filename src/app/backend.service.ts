@@ -32,7 +32,7 @@ export class Event{
 @Injectable()
 export class BackendService {
 
-  base: string = 'https://1d4469ec.ngrok.io';
+  base: string = 'https://844e1576.ngrok.io';
 
   private _list: Task[] = [];
   private _observableList: BehaviorSubject<Task[]> = new BehaviorSubject([]);

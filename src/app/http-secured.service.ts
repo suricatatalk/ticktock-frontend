@@ -34,6 +34,7 @@ export class HttpSecuredService {
   addAuthHeader(options?: RequestOptionsArgs): RequestOptionsArgs {
     let authToken = this._authStorage.getToken();
     let headers = new Headers({ 'Accept': 'application/json' });
+    console.log("Sending auth header");
     headers.append(this.AUTH_HEADER, authToken);
     let opt = new RequestOptions({ headers: headers });
     return opt.merge(options);

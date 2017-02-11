@@ -17,13 +17,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._route.queryParams.subscribe(
-      (param: any) => {
-        let xauth = param['token'];
-        if (xauth != null) {
-          this._authStorage.saveToken(xauth);
-        }
-      });
+    // this._route.queryParams.subscribe(
+    //   (param: any) => {
+    //     let xauth = param['token'];
+    //     if (xauth != null) {
+    //       this._authStorage.saveToken(xauth);
+    //     }
+    //   });
   }
 
 }
