@@ -5,7 +5,7 @@
         </div>
         <div [attr.id]="task.id" class="collapse">
             <li class="list-group-item" *ngFor='let event of task.events '>
-                <span>{{event.eventType | eventType }}</span>
+                <span>{{event.eventType}}</span>
                 <span>{{event.eventEpoch | formatDate }}</span>
             </li>
         </div>

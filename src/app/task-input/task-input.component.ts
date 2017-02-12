@@ -54,7 +54,7 @@ export class TaskInputComponent implements OnInit {
 
       let lastStart: number;
       this.task.events.forEach(event => {
-        if (event.eventType == 0) {
+        if (event.eventType === 'start') {
           lastStart = event.eventEpoch;
         }
       });

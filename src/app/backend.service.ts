@@ -14,18 +14,11 @@ export class Task {
   events: Event[];
 }
 
-export class EventDTO {
-  taskName: string;
-  taskId: string;
-  eventEpoch: number;
-  eventType: string;
-}
-
 export class Event{
   taskName: string;
   taskId: string;
   eventEpoch: number;
-  eventType: number;
+  eventType: string;
 }
 
 
@@ -56,7 +49,7 @@ export class BackendService {
   }
 
   startTask(name: string) {
-    let task = new EventDTO();
+    let task = new Event();
     task.taskName = name;
     task.eventEpoch = new Date().getTime();
     task.eventType = 'start';
@@ -79,7 +72,7 @@ export class BackendService {
   }
 
   private doEvent(inputTask: Task, action: string) {
-    let event = new EventDTO();
+    let event = new Event();
     event.eventEpoch = new Date().getTime();
     event.eventType = action;
     event.taskId = inputTask.id;
