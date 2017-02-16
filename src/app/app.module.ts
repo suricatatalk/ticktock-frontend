@@ -15,6 +15,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { ConnectionBackend, RequestOptions, Response } from '@angular/http';
 import { BackendService } from './backend.service';
 import { SettingsComponent } from './settings/settings.component';
+import { TaskComponent } from './task/task.component';
 
 
 
@@ -28,6 +29,7 @@ import { SettingsComponent } from './settings/settings.component';
     TaskInputComponent,
     TaskListComponent,
     SettingsComponent,
+    TaskComponent,
   ],
   imports: [
     BrowserModule,

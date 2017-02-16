@@ -1,13 +1,5 @@
 <ul class="list-group col-lg-12">
     <li class="list-group-item" *ngFor='let task of (_backendService.observableList | async | finishedTasks) '>
-        <div data-toggle="collapse" [attr.data-target]="'#' + task.id">
-            <span>{{task.name}}</span><span>Start:{{task.start | formatDate}}</span>&nbsp;<span>Finish:{{task.end | formatDate}}</span>&nbsp;<span class="badge">{{task.duration | formatTime }}</span>
-        </div>
-        <div [attr.id]="task.id" class="collapse">
-            <li class="list-group-item" *ngFor='let event of task.events '>
-                <span>{{event.eventType}}</span>
-                <span>{{event.eventEpoch | formatDate }}</span>
-            </li>
-        </div>
+        <app-task [task]="task"></app-task>
     </li>
 </ul>
