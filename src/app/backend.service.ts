@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject,Subject } from 'rxjs';
 import { HttpSecuredService } from './http-secured.service';
 
 export class Task {
@@ -21,6 +21,13 @@ export class Event{
   eventType: string;
 }
 
+export class User{
+  ID:string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 
 @Injectable()
 export class BackendService {
@@ -29,6 +36,7 @@ export class BackendService {
 
   private _list: Task[] = [];
   private _observableList: BehaviorSubject<Task[]> = new BehaviorSubject([]);
+  private _user: Subject<User> = new Subject<User>();
 
   constructor(private http: HttpSecuredService) {
     console.log("BackendService has been created.");
@@ -36,6 +44,7 @@ export class BackendService {
   }
 
   get observableList(): Observable<Task[]> { return this._observableList.asObservable().share() }
+  get user(): Observable<User> { return this._user.share() }
 
 
   refresh() {
@@ -81,5 +90,21 @@ export class BackendService {
       obs.unsubscribe();
     });
   }
+
+
+  getUser(){
+     let obs = this.http.get(this.base + '/user', event).map(res => res.json()).subscribe(res => {
+       this._user.next(<User> res);
+       obs.unsubscribe();
+    });
+  }
+
+  saveUser(user:User){
+    let obs = this.http.post(this.base + '/user', user).map(res => res.json()).subscribe(res => {
+       this._user.next(<User> res);
+       obs.unsubscribe();
+    });
+  }
+
 
 }

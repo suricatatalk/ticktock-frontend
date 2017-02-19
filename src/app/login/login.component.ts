@@ -16,15 +16,19 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this._route.queryParams.subscribe(
       (param: any) => {
-        console.log('Params'+ JSON.stringify(param));
+        console.log('Params' + JSON.stringify(param));
         let xauth = param['token'];
+        let firstLogin = param['firstlogin'];
         if (xauth != null) {
-          console.log('Saving token'+xauth);
+          console.log('Saving token' + xauth);
           this._authStorage.saveToken(xauth);
         }
-        if (this._authStorage.getToken() != null) {
+        if (this._authStorage.getToken() != null && firstLogin == null) {
           console.log('Redirecting to home');
           this._router.navigate(['/home']);
+        } else if (this._authStorage.getToken() != null) {
+          console.log('Redirecting to settings');
+          this._router.navigate(['/settings']);
         }
       });
   }

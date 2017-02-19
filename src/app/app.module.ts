@@ -44,6 +44,10 @@ import { TaskComponent } from './task/task.component';
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
       }
     ]),
     PipeModule

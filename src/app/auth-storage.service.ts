@@ -13,7 +13,7 @@ export class AuthStorageService {
       let json = JSON.parse(decoded);
       this._user = json.ID;
     }
-   }
+  }
 
   get user(): string { return this._user; }
 
@@ -21,7 +21,13 @@ export class AuthStorageService {
     localStorage.setItem(this.XAUTH_ITEM, token);
     let decoded = atob(token.split('.')[1]);
     let json = JSON.parse(decoded);
-    this._user = json.ID;
+    console.log("Received json: "+decoded);
+    
+    if (json.FirstName != null || json.LastName != null) {
+      this._user = json.FirstName + " " + json.LastName;
+    } else {
+      this._user = json.ID;
+    }
   }
 
   getToken() {
