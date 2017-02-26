@@ -11,7 +11,7 @@ export class AuthStorageService {
     if (token != null) {
       let decoded = atob(token.split('.')[1]);
       let json = JSON.parse(decoded);
-      this._user = json.ID;
+      this.decodeName(json);
     }
   }
 
@@ -21,13 +21,8 @@ export class AuthStorageService {
     localStorage.setItem(this.XAUTH_ITEM, token);
     let decoded = atob(token.split('.')[1]);
     let json = JSON.parse(decoded);
-    console.log("Received json: "+decoded);
-    
-    if (json.FirstName != null || json.LastName != null) {
-      this._user = json.FirstName + " " + json.LastName;
-    } else {
-      this._user = json.ID;
-    }
+    console.log("Received json: " + decoded);
+    this.decodeName(json);
   }
 
   getToken() {
@@ -38,6 +33,15 @@ export class AuthStorageService {
   reset() {
     localStorage.removeItem(this.XAUTH_ITEM);
   }
+
+  decodeName(json: any) {
+    if (json.FirstName != null || json.LastName != null) {
+      this._user = json.FirstName + ' ' + json.LastName;
+    } else {
+      this._user = json.ID;
+    }
+  }
+
 
 
 }

@@ -32,7 +32,7 @@ export class User{
 @Injectable()
 export class BackendService {
 
-  base: string = 'https://cc226611.ngrok.io';
+  base: string = 'https://0a22fdba.ngrok.io';
 
   private _list: Task[] = [];
   private _observableList: BehaviorSubject<Task[]> = new BehaviorSubject([]);

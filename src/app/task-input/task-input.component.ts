@@ -14,6 +14,7 @@ export class TaskInputComponent implements OnInit {
   isRunning: boolean;
   duration: number;
   lastTimer: NodeJS.Timer;
+  strokeOffset: number;
 
   constructor(private _backendService: BackendService) {
     this.buttonTitle = 'Start';
@@ -61,6 +62,8 @@ export class TaskInputComponent implements OnInit {
       this.lastTimer = setInterval(() => {
         let date = new Date();
         this.duration = this.task.duration + (date.getTime() / 1000 - lastStart);
+        let unix = moment.unix(this.duration);
+        this.strokeOffset = 500-(unix.seconds()*(500/60));
       }, 1000);
     } else {
       this.buttonTitle = 'Start';

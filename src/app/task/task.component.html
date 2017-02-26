@@ -1,6 +1,6 @@
 <div>
     <div data-toggle="collapse" [attr.data-target]="'#' + task.id">
-        <span>{{task.name}}</span><span>Start:{{task.start | formatDate}}</span>&nbsp;<span>Finish:{{task.end | formatDate}}</span>&nbsp;<span class="badge">{{task.duration | formatTime }}</span>
+        <h4>{{task.name}}</h4><span>Start:{{task.start | formatDate}}</span>&nbsp;<span>Finish:{{task.end | formatDate}}</span>&nbsp;<span class="badge">{{task.duration | formatTime }}</span>
     </div>
     <div [attr.id]="task.id" class="collapse">
         <li class="list-group-item" *ngFor='let event of task.events '>
